@@ -1,8 +1,10 @@
 
 import networkx as nx
 
-def graph(gene_id,biomart_genes, majiq_genes):
 
+def graph(gene_id,biomart_genes, majiq_genes):
+    # creates the graph 
+    
     junctions = [] # majiq junctions corresponding to the given geneID
     gene = 'gene:' + gene_id
     for j in range(1, len(majiq_genes)):
