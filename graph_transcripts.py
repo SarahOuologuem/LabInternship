@@ -1,4 +1,13 @@
 
+# this script should be run to get the transcripts as a fasta file of a gene 
+# geneId and path, to which the fasta file is saved, is being asked as an input 
+# as needed files: - tsv file with all genes
+#                  - majiq output
+#                  - fasta file with exon sequences
+#                  - fasta file with transcripts
+# more details about the files below
+# this script uses the scripts 'graph_onegene.py' and transcripts_one_gene.py' where no additional files are needed
+
 import csv
 from graph_onegene import graph
 from Bio import SeqIO
@@ -6,9 +15,12 @@ from Bio.SeqRecord import SeqRecord
 from Bio.Seq import Seq
 
 
+
 def transcripts():
 
     all_genes = []
+    # mart_export.tsv is a tsv file with all genes from biomart 
+    # the columns are: Gene stable ID, Gene stable ID version, Exon stable ID, Exon region start (bp), Exon region end (bp),Transcription start site (TSS), Strand, Gene start(bp), Gene end (bp)
     with open("/home/sarah/Downloads/Praktikum/mart_export.tsv", "r") as output:
         mart_output = csv.reader(output, delimiter="\t")
         for rec in mart_output:
@@ -21,6 +33,8 @@ def transcripts():
     path = input("Path: ")
 
     majiq_genes = [] # majiq junctions
+    
+    # Sclerotic_No_Category.deltapsi.tsv is the majiq ouput
     with open("/home/sarah/Downloads/Praktikum/Sclerotic_No_Category.deltapsi.tsv", "r") as output:
         majiq_output = csv.reader(output, delimiter="\t")
         for record in majiq_output:
@@ -52,6 +66,12 @@ def transcripts():
 
     # fasta file for the sequences
     records2 = []
+    
+    # martquery_0128151332_8.fasta = fasta file from biomart with exon sequences 
+    # an entry looks f.ex. like follows: 
+    #>ENSG00000271254|4612|29626|ENSE00003714086|10911|11083|-1
+    #GCTCAGCAGGGAGCTGCTGGATGAGAAAGGGCCTGAAGTCTTGCAGGACTCACTGGATAG(...)
+    # geneID, gene start, gene end, exonID, exon start, exon end, strand, sequence
     with open("/home/sarah/Downloads/Praktikum/martquery_0128151332_8.fasta", "r") as handle:
         for record in SeqIO.parse(handle, "fasta"):
             records2.append(record)
@@ -97,6 +117,9 @@ def transcripts():
 
     # comparing to annotated transcripts and generating the output
     ann_transcripts = []
+    
+    # fasta file from biomart with transcripts 
+    # an entry is: geneID, exonID, transcript
     with open("/home/sarah/Downloads/Praktikum/martquery_allTranscripts.fasta", "r") as handle:
         for record in SeqIO.parse(handle, "fasta"):
             ann_transcripts.append(record)
