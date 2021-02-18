@@ -1,7 +1,10 @@
 
 
+# output of 'transcripts()': transcripts as lists of exonids
+
+
 def transcripts(junctions):
-    # output: transcripts as lists of exonids
+    
 
     exon_ids_from = []
     exon_ids_to = []
@@ -24,7 +27,7 @@ def transcripts(junctions):
     def create_transcripts(exons):
         corr_junctions = []
 
-        # get all junctions corresponding to the last exon
+        # get all junctions corresponding to the last exon of 'exons'
         for i in range(len(junctions)):
             if exons[len(exons)-1] == junctions[i][1]:
                 corr_junctions.append(junctions[i])
