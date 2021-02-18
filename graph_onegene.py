@@ -1,10 +1,13 @@
 
+ # the function ' graph' creates the graph with the constitutive and majiq junctions 
+ 
+
 import networkx as nx
 
 
 def graph(gene_id,biomart_genes, majiq_genes):
-    # creates the graph 
     
+    # first, get majiq junctions of the gene
     junctions = [] # majiq junctions corresponding to the given geneID
     gene = 'gene:' + gene_id
     for j in range(1, len(majiq_genes)):
@@ -29,7 +32,7 @@ def graph(gene_id,biomart_genes, majiq_genes):
     graph = nx.DiGraph()
 
 
-
+    # corresponding exons of the gene 
     exons = [] # exon-strings for the nodes of the graph
     exons_raw = [] # list of exons as [start,end]
     gene_end = 0
@@ -57,7 +60,8 @@ def graph(gene_id,biomart_genes, majiq_genes):
     if len(exons_raw) == 0:
         return []
 
-    # creating graph with constitutive junctions:
+    
+    # Step 1: creating graph with constitutive junctions:
 
     # find 'first' exon (smallest start)
     first_exon_raw = exons_raw[0]
@@ -141,8 +145,10 @@ def graph(gene_id,biomart_genes, majiq_genes):
         makeGraph(first_exons_raw[i], first_exons[i])
 
 
-    # add all majiq junctions to the given graph
+        
+    # Step 2: add all majiq junctions to the given graph
 
+    
     # start exon = exon with no junction in majiq output with end_exon = start_junction
     start_exons = []
     for i in range(len(exons_raw)):
